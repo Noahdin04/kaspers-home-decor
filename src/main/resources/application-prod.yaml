@@ -1,0 +1,14 @@
+# Activated by SPRING_PROFILES_ACTIVE=prod (set in deploy/api/.env)
+
+spring:
+  jpa:
+    show-sql: false
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO

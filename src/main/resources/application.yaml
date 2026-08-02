@@ -1,3 +1,32 @@
 spring:
   application:
     name: kaspers
+
+  # Connection params come from environment variables (deploy/api/.env in the
+  # container). Defaults target localhost for local dev; prod overrides via env.
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:kaspers}
+    username: ${DB_USER:kaspers_app}
+    password: ${DB_PASSWORD:changeme}
+
+  jpa:
+    # Flyway owns the schema. Hibernate only validates against it, never alters it.
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: kaspers
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+# Only expose health (the container healthcheck hits /actuator/health).
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
